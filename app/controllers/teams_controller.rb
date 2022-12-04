@@ -50,6 +50,8 @@ class TeamsController < ApplicationController
   def assign_owner
     if @team.owner == current_user
       @team.update(owner_id: params[:owner_id])
+      @user = User.find(@team.owner_id)
+      AssignMailer.assign_owner_email(@user.email).deliver
       redirect_to @team, notice: I18n.t('views.messages.authority_transfer')
     end
   end
