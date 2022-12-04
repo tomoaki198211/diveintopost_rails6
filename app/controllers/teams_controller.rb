@@ -48,7 +48,7 @@ class TeamsController < ApplicationController
   end
 
   def assign_owner
-    if @team.owner == current_user
+    if @team.owner_id == current_user.id
       @team.update(owner_id: params[:owner_id])
       @user = User.find(@team.owner_id)
       AssignMailer.assign_owner_email(@user.email).deliver
